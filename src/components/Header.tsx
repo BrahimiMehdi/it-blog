@@ -9,9 +9,8 @@ const Header = (props: Props) => {
       <Link href={"/"}>
       <Image priority className="size-28 object-contain" src={Logo} alt="logo of the blog" />
       </Link>
-      <nav className="w-full max-w-3xl flex justify-between">
+      <nav className="w-full max-w-xl flex justify-between">
         <Link href="/">Home</Link>
-        <Link href="/about">About us</Link>
         <Link href="/blog">Blog</Link>
         <Link href="/contact-us">Contact Us</Link>
       </nav>
