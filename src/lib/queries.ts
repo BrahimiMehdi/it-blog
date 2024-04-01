@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 import { client } from "./client";
-export const getBlogsAndCategories = async () => {
+export const getBlogs = async () => {
   const query = gql`
     query Blogs {
       blogs {
@@ -27,6 +27,15 @@ export const getBlogsAndCategories = async () => {
         }
         id
       }
+   
+    }
+  `;
+  const { blogs } = await client.request<{ blogs: BlogData[] }>(query);
+  return blogs;
+};
+export const getCategories = async () => {
+  const query = gql`
+    query categories {
       categories {
         name
         blogs {
@@ -35,8 +44,8 @@ export const getBlogsAndCategories = async () => {
       }
     }
   `;
-  const { blogs, categories } = await client.request<{ blogs: BlogData[]; categories: CategoryType[] }>(query);
-  return { blogs: blogs, categories: categories };
+  const { categories } = await client.request<{  categories: CategoryType[] }>(query);
+  return categories;
 };
 export const getBlogDetails = async (id: string) => {
   const query = gql`

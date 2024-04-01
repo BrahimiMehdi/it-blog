@@ -1,10 +1,10 @@
 export const dynamicParams = false;
-import { getBlogDetails, getBlogsAndCategories } from "@/lib/queries";
+import { getBlogDetails, getBlogs } from "@/lib/queries";
 import { RichText } from "@graphcms/rich-text-react-renderer";
 import Image from "next/image";
 
 export async function generateStaticParams() {
-  const { blogs } = await getBlogsAndCategories();
+  const blogs= await getBlogs();
   return blogs.map((blog) => ({
     id: blog.id,
   }));
