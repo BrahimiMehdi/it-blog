@@ -61,6 +61,18 @@ export const getBlogDetails = async (id: string) => {
           raw
           html
         }
+        publishedAt
+        author{
+          name
+          image{
+            url
+            width
+            height
+          }
+        }
+        category{
+          name
+        }
         id
       }
     }
