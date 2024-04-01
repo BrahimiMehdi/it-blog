@@ -1,13 +1,13 @@
 export const dynamicParams = false;
-import { getBlogDetails,getBlogs } from "@/lib/queries";
+import { getBlogDetails, getBlogsAndCategories } from "@/lib/queries";
 import { RichText } from "@graphcms/rich-text-react-renderer";
 import Image from "next/image";
 
 export async function generateStaticParams() {
-    const blogs = await getBlogs()
-    return blogs.map((blog) => ({
-        id: blog.id,
-      }))
+  const { blogs } = await getBlogsAndCategories();
+  return blogs.map((blog) => ({
+    id: blog.id,
+  }));
 }
 export default async function BlogDetails({ params }: any) {
   const blogDetails = await getBlogDetails(params.id);
@@ -16,7 +16,7 @@ export default async function BlogDetails({ params }: any) {
       <article className="prose-invert prose">
         <Image
           alt={blogDetails.title}
-          className="object-cover rounded-lg"
+          className="object-cover w-full h-96 rounded-lg"
           src={blogDetails.image.url}
           width={blogDetails.image.width}
           height={blogDetails.image.height}

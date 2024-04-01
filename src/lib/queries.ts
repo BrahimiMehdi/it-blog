@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 import { client } from "./client";
-export const getBlogs = async () => {
+export const getBlogsAndCategories = async () => {
   const query = gql`
     query Blogs {
       blogs {
@@ -10,17 +10,38 @@ export const getBlogs = async () => {
           width
           height
         }
+        publishedAt
+        category {
+          name
+          blogs {
+            id
+          }
+        }
+        author {
+          name
+          image {
+            url
+            width
+            height
+          }
+        }
         id
+      }
+      categories {
+        name
+        blogs {
+          id
+        }
       }
     }
   `;
-  const data = await client.request<{blogs:BlogData[]}>(query)
-  return data.blogs
+  const { blogs, categories } = await client.request<{ blogs: BlogData[]; categories: CategoryType[] }>(query);
+  return { blogs: blogs, categories: categories };
 };
-export const getBlogDetails = async (id:string) => {
+export const getBlogDetails = async (id: string) => {
   const query = gql`
     query Blogs($id: ID!) {
-      blog(where: {id: $id}) {
+      blog(where: { id: $id }) {
         title
         image {
           url
@@ -35,6 +56,6 @@ export const getBlogDetails = async (id:string) => {
       }
     }
   `;
-  const data = await client.request<{blog:BlogData}>(query,{id:id})
-  return data.blog
+  const { blog } = await client.request<{ blog: BlogData }>(query, { id: id });
+  return blog;
 };
